@@ -1,0 +1,56 @@
+{
+  "mem_rule_02": {
+    "id": "mem_rule_02",
+    "error_category": "GROUP_BY_MISSING_COLUMN",
+    "trigger_pattern": "GROUP BY aggregate SUM AVG COUNT MIN MAX region market_type",
+    "generalized_rule": "Whenever an aggregated column (e.g., SUM(profit), AVG(gross_revenue)) is selected with non-aggregated attributes (e.g., region, market_type, category), ensure ALL non-aggregated columns appear in the GROUP BY clause.",
+    "target_tables": [
+      "dim_store",
+      "fact_sales",
+      "dim_product"
+    ],
+    "confidence_score": 1.0,
+    "usage_count": 15,
+    "success_count": 14,
+    "failure_count": 1,
+    "created_at": "2026-09-26T18:50:35.011463",
+    "last_accessed_at": "2026-09-26T19:19:24.204117",
+    "decay_rate": 0.02
+  },
+  "mem_rule_03": {
+    "id": "mem_rule_03",
+    "error_category": "STAR_SCHEMA_JOIN",
+    "trigger_pattern": "store region product customer date join",
+    "generalized_rule": "Always join fact_sales with dimensions using explicit foreign keys: fact_sales.store_id = dim_store.store_id, fact_sales.customer_id = dim_customer.customer_id, fact_sales.product_id = dim_product.product_id, fact_sales.date_id = dim_date.date_id.",
+    "target_tables": [
+      "fact_sales",
+      "dim_store",
+      "dim_customer",
+      "dim_product",
+      "dim_date"
+    ],
+    "confidence_score": 1.0,
+    "usage_count": 15,
+    "success_count": 14,
+    "failure_count": 1,
+    "created_at": "2026-09-26T18:50:35.011468",
+    "last_accessed_at": "2026-09-26T19:19:24.206237",
+    "decay_rate": 0.02
+  },
+  "mem_rule_03_185114": {
+    "id": "mem_rule_03_185114",
+    "error_category": "COLUMN_HALLUCINATION",
+    "trigger_pattern": "revenue gross_revenue fact_sales",
+    "generalized_rule": "In table 'fact_sales', do not use 'revenue'. The valid column name for this concept is 'gross_revenue'.",
+    "target_tables": [
+      "fact_sales"
+    ],
+    "confidence_score": 1.0,
+    "usage_count": 12,
+    "success_count": 12,
+    "failure_count": 0,
+    "created_at": "2026-09-26T18:51:14.856801",
+    "last_accessed_at": "2026-09-26T19:19:24.207628",
+    "decay_rate": 0.05
+  }
+}
